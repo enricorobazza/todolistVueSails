@@ -40,7 +40,7 @@ var app = new Vue({
 	
     methods: {
         updateTasksList(taskInfo) {
-            this.tasks.push(taskInfo);
+            // this.tasks.push(taskInfo);
 			axios/*usando axios (3rd-party library) e promisses -> podeira usar fetch (padr�o EC6.0)*/
 				.post('http://localhost:1337', taskInfo)
 				.then(response => {
