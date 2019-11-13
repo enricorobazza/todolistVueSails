@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8" />
+   
+</head>
+<body>
+    <div id="app">
+        <!-- Instancia do componente Task criado no Vue-->
+        <task @add-to-tasks-list="updateTasksList"> </task> <!-- Especificacao do evento 'add-to-tasks-list'.  -->
+
+        <fieldset>
+            <legend>Lista de Tarefas</legend>
+
+            <!-- Utilizando Condicionais para a Renderizacao-->
+            <div v-if="!tasks.length">Nao existem tarefas cadastradas</div>
+
+            <div v-else>
+                <div v-for="task in tasks">
+                    <!-- Renderizacao de uma lista utilizando v-for. 'task' � um apelido e 'tasks'refere � lista-->
+                    <input type="checkbox" v-model="task.checked" />  {{ task.name }}<br />
+                </div>
+            </div>
+
+        </fieldset>
+
+        <!--v-on:click -> especificacao do evento-->
+        <button v-on:click="removeTask">Remover marcadas</button>
+
+
+    </div>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="appVue.js"></script>
+	<script
+			  src="https://code.jquery.com/jquery-2.2.4.min.js"
+			  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+			  crossorigin="anonymous"></script>
+
+</body>
+</html>
