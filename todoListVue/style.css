@@ -30,7 +30,7 @@ body{
 }
 
 #addTask > input[type=text] {
-    width: 100%;
+    width: calc(100% - 24px);
     padding: 10px;
     margin: 5px 0;
 }
@@ -49,10 +49,11 @@ button{
 }
 
 #container{
-    padding: 20px;
+    /* padding: 20px; */
+    margin-bottom:20px;
 }
 .task{
-    width: 100%;
+    width: calc(100% - 20px);
     margin: 2px 0;
     background-color: #dfe6e9;
     padding: 5px 10px;

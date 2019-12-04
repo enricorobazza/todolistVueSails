@@ -20,7 +20,8 @@
             <div v-else>
                 <div class="task" v-for="task in tasks">
                     <!-- Renderizacao de uma lista utilizando v-for. 'task' � um apelido e 'tasks'refere � lista-->
-                    <input type="checkbox" v-model="task.checked" />  {{ task.name }}<br />
+                    <input type="checkbox" v-model="task.checked" v-bind:id="task.name"/>  
+                    <label v-bind:for="task.name">{{ task.name }}</label><br />
                 </div>
             </div>
         </div>

@@ -82,10 +82,19 @@ var app = new Vue({
         removeTask() {
             var old = this.tasks;
             this.tasks = [];
+            var toRemove = [];
             for (var i = 0; i < old.length; i++) {
-                if (!old[i].checked) 
-                    this.tasks.push(old[i]);            
+                if (!old[i].checked){
+                    this.tasks.push(old[i]);
+                }
+                else{
+                    toRemove.push(old[i]);
+                }            
             }
+            axios.delete('http://localhost:1337', {data: toRemove}).catch(err => {
+                console.log(error);
+                this.errored = true
+            })
         }
     }
     

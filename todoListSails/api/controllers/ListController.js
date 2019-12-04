@@ -38,9 +38,10 @@ module.exports = {
     },
     deleteTasks: async function(req, res){
         try{
-            var tasksIds = req.ids;
-            tasksIds.forEach(element => {
-                Task.destroy("id = "+element);
+            let tasks = req.body;
+            tasks.forEach(async (element) => {
+                console.log(element.id);
+                await Task.destroy({id: element.id});
             });
             return res.send("ok");
         }
@@ -48,7 +49,6 @@ module.exports = {
             return res.badRequest(err);
         }
     }
-  
   };
   
   
