@@ -3,9 +3,9 @@
 Vue.component('task', {  
     //Ao inves de fazer a conexao pelo DOM como � feito na instancia do Vue (Line 38). A atributo Template especifica a estrutura do componente
     template: `  
-           <form v-on:submit ="addToTasksList" action="#">
+           <form id="addTask" v-on:submit ="addToTasksList" action="#">
                 <label for="task">Tarefa:<br /></label>
-                <input  v-model="name"  onchange = "this.value = null ">   <!-- v-model ->  criando two-way data bindings no input do form -->     
+                <input type="text"  v-model="name"  onchange = "this.value = null ">   <!-- v-model ->  criando two-way data bindings no input do form -->     
                 <input type="submit" value="Adicionar"> 
            </form>
 `,
@@ -34,8 +34,21 @@ Vue.component('task', {
 //Criando uma nova inst�ncia do Vue. The Root da aplica��o Vue.js
 var app = new Vue({
     el: '#app', //conectando com a div id = "app" 
-    data: { // Vue is Reactive. Se modificarmos os dados nessa inst�ncia, ir� modificar os dados em cada lugar que est� sendo referenciado 
-        tasks: [] 
+    data(){
+        return {tasks: []};
+    },
+
+    beforeMount(){
+        axios.get('http://localhost:1337').then(response => {
+                tasks = [];
+                response.data.forEach(task => {
+                    tasks.push(task);
+                });
+                this.tasks = tasks;
+            }).catch(err => {
+                console.log(error)
+                this.errored = true
+            });
     },
 	
     methods: {
@@ -53,8 +66,17 @@ var app = new Vue({
 					console.log(error)
 					this.errored = true
 				})
-				
-				
+        },
+
+        getTasks(){
+            axios.get('http://localhost:1337').then(response => {
+                response.data.forEach(task => {
+                    this.tasks.push(task);
+                })
+            }).catch(err => {
+                console.log(error)
+                this.errored = true
+            });
         },
 
         removeTask() {

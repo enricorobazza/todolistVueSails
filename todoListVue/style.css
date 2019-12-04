@@ -1,0 +1,59 @@
+*{
+    font-size: 13pt;
+}
+
+body{
+    background-color: #74b9ff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+#app{
+    background-color: white;
+    padding: 20px 100px;
+    width: 300px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    font-size: 13pt;
+}
+
+#app:hover{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+#addTask{
+    margin-bottom: 30px;
+}
+
+#addTask > input[type=text] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+}
+
+#addTask > input[type=submit], button{
+    width: 100%;
+    padding: 10px 30px;
+    color: white;
+    border: none;
+    margin: 0;
+    background-color: #6c5ce7;
+}
+
+button{
+    background-color: #00b894;
+}
+
+#container{
+    padding: 20px;
+}
+.task{
+    width: 100%;
+    margin: 2px 0;
+    background-color: #dfe6e9;
+    padding: 5px 10px;
+}

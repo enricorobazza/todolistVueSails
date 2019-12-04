@@ -3,27 +3,27 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-   
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="app">
         <!-- Instancia do componente Task criado no Vue-->
         <task @add-to-tasks-list="updateTasksList"> </task> <!-- Especificacao do evento 'add-to-tasks-list'.  -->
+        <!-- <task @get-tasks="getTasks"> </task>  -->
 
-        <fieldset>
-            <legend>Lista de Tarefas</legend>
+      
 
-            <!-- Utilizando Condicionais para a Renderizacao-->
+        <!-- Utilizando Condicionais para a Renderizacao-->
+        <div id="container">
             <div v-if="!tasks.length">Nao existem tarefas cadastradas</div>
 
             <div v-else>
-                <div v-for="task in tasks">
+                <div class="task" v-for="task in tasks">
                     <!-- Renderizacao de uma lista utilizando v-for. 'task' � um apelido e 'tasks'refere � lista-->
                     <input type="checkbox" v-model="task.checked" />  {{ task.name }}<br />
                 </div>
             </div>
-
-        </fieldset>
+        </div>
 
         <!--v-on:click -> especificacao do evento-->
         <button v-on:click="removeTask">Remover marcadas</button>

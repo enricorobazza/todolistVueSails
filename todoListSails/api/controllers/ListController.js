@@ -22,13 +22,31 @@ module.exports = {
             response = await Task.create({name: req.body.name});
             return res.send(x);
           } catch (err) {
-            switch (err.name) {
-              case 'UsageError': return res.badRequest(err);
-              default: throw err;
-            }
-          }
-
+              return res.badRequest(err);
+           }
         // return res.send(x);
+    },
+
+    getTasks: async function(req, res){
+        try{
+            var tasks = await Task.find();
+            return res.send(tasks);
+        }
+        catch(err){
+            return res.badRequest(err);
+        }
+    },
+    deleteTasks: async function(req, res){
+        try{
+            var tasksIds = req.ids;
+            tasksIds.forEach(element => {
+                Task.destroy("id = "+element);
+            });
+            return res.send("ok");
+        }
+        catch(err){
+            return res.badRequest(err);
+        }
     }
   
   };
