@@ -30,8 +30,8 @@ Vue.component('task',{
     // props: {task:{
     //     type: Object
     // }},
-    props: ["name"],
-    template: `${name} <span class="close">x</span>`,
+    props: {alo:{type:String}},
+    template: `<div>{{alo}} <span class="close">x</span></div>`,
     data() {
         return { 
             name: null,
