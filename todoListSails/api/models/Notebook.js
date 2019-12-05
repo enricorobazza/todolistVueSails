@@ -1,11 +1,9 @@
 /**
- * Task.js
+ * Notebook.js
  *
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
-
- 
 
 module.exports = {
 
@@ -14,14 +12,11 @@ module.exports = {
       required: true,
       type: 'string'
     },
-    checked:{
-      type: 'boolean',
-      defaultsTo: false
-    },
-    list:{
-      model: 'list'
+    lists:{
+      collection: 'list',
+      via: 'notebook'
     }
+  },
 
-  }
 };
 

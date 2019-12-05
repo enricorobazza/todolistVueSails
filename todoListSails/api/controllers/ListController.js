@@ -14,17 +14,21 @@ module.exports = {
 
 
     addTask: async function (req, res) {
-        sails.log(req.body); 
-        /*sails.log('taskInfo:{name: '+req.body.name+', checked: '+req.body.checked+'}');*/
-        var x = {name: req.body.name, checked: req.body.checked};
-
         try {
+<<<<<<< HEAD
             response = await Task.create({name: req.body.name});
             return res.send(x);
         } catch (err) {
             return res.badRequest(err);
         }
         // return res.send(x);
+=======
+            response = await Task.create({name: req.body.name}).fetch();
+            return res.send(response);
+          } catch (err) {
+              return res.badRequest(err);
+           }
+>>>>>>> 0c532887b9cbdd0a4bb14fa185f97d311713a4c7
     },
 
     getTasks: async function(req, res){

@@ -4,32 +4,75 @@
 <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="style.css">
+    <title>MyList</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
     <div id="app">
-        <!-- Instancia do componente Task criado no Vue-->
-        <task @add-to-tasks-list="updateTasksList"> </task> <!-- Especificacao do evento 'add-to-tasks-list'.  -->
-        <!-- <task @get-tasks="getTasks"> </task>  -->
-
-      
-
-        <!-- Utilizando Condicionais para a Renderizacao-->
-        <div id="container">
-            <div v-if="!tasks.length">Nao existem tarefas cadastradas</div>
-
-            <div v-else>
-                <div class="task" v-for="task in tasks">
-                    <!-- Renderizacao de uma lista utilizando v-for. 'task' � um apelido e 'tasks'refere � lista-->
-                    <input type="checkbox" v-model="task.checked" v-bind:id="task.name"/>  
-                    <label v-bind:for="task.name">{{ task.name }}</label><br />
+        <div class="top">
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="#">MyList</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
+                    </form>
                 </div>
-            </div>
+            </nav>
         </div>
 
-        <!--v-on:click -> especificacao do evento-->
-        <button v-on:click="removeTask">Remover marcadas</button>
+        <div class="middle">
+            <nav class="sidebar">
+                <ul>
+                    <li>Caderno 1 <span class="closeNote">x</span></li>
+                    <li class="selected">Caderno 2 <span class="closeNote">x</span></li>
+                    <li>Caderno 3 <span class="closeNote">x</span></li>
+                    <li>Caderno 4 <span class="closeNote">x</span></li>
+                    <li>Caderno 5 <span class="closeNote">x</span></li>
+                </ul>
 
+                <div class="addNotebook"><input placeholder="Meu caderno..."/><a href="#" class="btn btn-warning">Adicionar caderno</a></div>
+            </nav>
 
+            <div class="content">
+
+                <div class="card" >
+                    <div class="card-body">
+                        <h5 class="card-title">Minha lista</h5>
+
+                        <ul class="list" v-if="tasks.length">
+                            <li v-for="task in tasks">{{task.name}} <span class="close">x</span></li>
+                        </ul>
+
+                        <task @add-to-tasks-list="updateTasksList"> </task> 
+                    </div>
+                </div>
+
+            </div>
+
+            
+            <!-- <div id="app">
+                <task @add-to-tasks-list="updateTasksList"> </task> 
+                <div id="container">
+                    <div v-if="!tasks.length">Nao existem tarefas cadastradas</div>
+
+                    <div v-else>
+                        <div class="task" v-for="task in tasks">
+                            <input type="checkbox" v-model="task.checked" v-bind:id="task.id"/>  
+                            <label v-bind:for="task.id">{{ task.name }}</label><br />
+                        </div>
+                    </div>
+                </div>
+                <button v-on:click="removeTask">Remover marcadas</button>
+            </div> -->
+
+        </div>
     </div>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -37,7 +80,34 @@
 	<script
 			  src="https://code.jquery.com/jquery-2.2.4.min.js"
 			  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-			  crossorigin="anonymous"></script>
+              crossorigin="anonymous"></script>
+              
+    <script>
+        var list = document.querySelector('.list');
+            list.addEventListener('click', function(ev) {
+            if (ev.target.tagName === 'LI') {
+                ev.target.classList.toggle('checked');
+            }
+        }, false);
+
+        var close = document.getElementsByClassName("close");
+
+        for (i = 0; i < close.length; i++) {
+            close[i].onclick = function() {
+                var div = this.parentElement;
+                div.style.display = "none";
+            }
+        }
+
+        var close = document.getElementsByClassName("closeNote");
+
+        for (i = 0; i < close.length; i++) {
+            close[i].onclick = function() {
+                var div = this.parentElement;
+                div.style.display = "none";
+            }
+        }
+    </script>
 
 </body>
 </html>

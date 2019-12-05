@@ -3,11 +3,10 @@
 Vue.component('task', {  
     //Ao inves de fazer a conexao pelo DOM como � feito na instancia do Vue (Line 38). A atributo Template especifica a estrutura do componente
     template: `  
-           <form id="addTask" v-on:submit ="addToTasksList" action="#">
-                <label for="task">Tarefa:<br /></label>
-                <input type="text"  v-model="name"  onchange = "this.value = null ">   <!-- v-model ->  criando two-way data bindings no input do form -->     
-                <input type="submit" value="Adicionar"> 
-           </form>
+        <div class="addTask">
+            <input placeholder="Minha tarefa..." v-model="name" onchange = "this.value = null"/>
+            <a href="#" class="btn btn-warning" v-bind:onclick="">Adicionar tarefa</a>
+        </div>
 `,
     data() {
         return { //Returns a fresh data object for each component. Ou seja, v�rias copias do mesmo componente ir� compartilhar os mesmos dados. 
