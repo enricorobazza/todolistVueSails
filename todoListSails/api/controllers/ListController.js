@@ -19,12 +19,18 @@ module.exports = {
     },
 
     toggleChecked: async function(req, res){
-
+        try{
+            console.log("Toggling task ", req.body.name, req.body.id , "to",req.body.checked);
+            await Task.updateOne({id:req.body.id}).set({checked: req.body.checked});
+            return res.send("ok");
+        }catch(err){
+            return res.badRequest(err);
+        }
     },
 
     getTasks: async function(req, res){
         try{
-            var tasks = await Task.find();
+            var tasks = await Task.find().sort('id');
             return res.send(tasks);
         }
         catch(err){

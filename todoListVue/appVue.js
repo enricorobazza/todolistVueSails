@@ -23,17 +23,14 @@ Vue.component('taskadd', {
 
 Vue.component('task',{
     props: {task:{type:Object}},
-    template: `<li>{{task.name}} <span v-on:click="removeFromList(task.id)" class="close">x</span></li>`,
-    data() {
-        return { 
-            name: null,
-            checked: false
-        }       
-    },
-    
+    template: `<li v-on:click="toggleChecked(task)" :class="task.checked ? 'checked' : ''">{{task.name}} <span v-on:click="removeFromList(task.id)" class="close">x</span></li>`,
     methods: {
         removeFromList(id){
             this.$emit('remove-from-list', id);
+        },
+        toggleChecked(task){
+            task.checked = !task.checked;
+            this.$emit('toggle-task', task)
         }
     }
 })
@@ -44,7 +41,7 @@ Vue.component('list', {
                         <h5 class="card-title">Alo</h5>
 
                         <ul class="list" v-if="this.tasks.length">
-                            <task @remove-from-list="removeFromList" :task="task" v-for="task in this.tasks">
+                            <task @toggle-task="toggleTask" @remove-from-list="removeFromList" :task="task" v-for="task in this.tasks">
                             </task>
                         </ul>
 
@@ -77,6 +74,13 @@ Vue.component('list', {
             axios.delete('http://localhost:1337', {data:{id}});
             this.tasks = this.tasks.filter(task=>{
                 return task.id != id;
+            })
+        },
+        toggleTask(task){
+            axios.put('http://localhost:1337', task);
+            this.tasks = this.tasks.map(ntask => {
+                if(ntask.id == task.id) return task;
+                else return ntask;
             })
         }
     }
