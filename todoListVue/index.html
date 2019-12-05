@@ -42,18 +42,7 @@
 
             <div class="content">
 
-                <div class="card" >
-                    <div class="card-body">
-                        <h5 class="card-title">Minha lista</h5>
-
-                        <ul class="list" v-if="tasks.length">
-                            <task :task="task" v-for="task in tasks">
-                            </task>
-                        </ul>
-
-                        <taskadd @add-to-tasks-list="updateTasksList"> </taskadd> 
-                    </div>
-                </div>
+                <list @remove-from-list="removeFromList" :tasks="tasks"></list>
 
             </div>
 

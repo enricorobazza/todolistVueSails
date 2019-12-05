@@ -31,7 +31,7 @@ Vue.component('task',{
     //     type: Object
     // }},
     props: {task:{type:Object}},
-    template: `<li>{{task.name}} <span class="close">x</span></li>`,
+    template: `<li>{{task.name}} <span v-on:click="removeFromList(task.id)" class="close">x</span></li>`,
     data() {
         return { 
             name: null,
@@ -40,6 +40,9 @@ Vue.component('task',{
     },
     
     methods: {
+        removeFromList(id){
+            this.$emit('remove-from-list', id);
+        },
         addToTasksList() {
             let taskInfo = {
                 name: this.name,
@@ -48,17 +51,28 @@ Vue.component('task',{
             this.$emit('add-to-tasks-list', taskInfo)
             this.name = null
         }
-     
     }
 })
 
+Vue.component('list', {
+    template: `<div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Alo</h5>
 
-var app = new Vue({
-    el: '#app', 
+                        <ul class="list" v-if="this.tasks.length">
+                            <task @remove-from-list="removeFromList" :task="task" v-for="task in this.tasks">
+                            </task>
+                        </ul>
+
+                        <taskadd @add-to-tasks-list="updateTasksList"> </taskadd> 
+                    </div>
+                </div>`,
     data(){
-        return {tasks: []};
+        return{
+            name: null,
+            tasks: []
+        }
     },
-
     beforeMount(){
         axios.get('http://localhost:1337').then(response => {
                 tasks = [];
@@ -70,6 +84,21 @@ var app = new Vue({
                 console.log(error)
                 this.errored = true
             });
+    },
+    methods:{
+        removeFromList(id){
+            alert(id);
+            // delete tasks[0];
+            this.$emit('remove-from-list', id);
+        }
+    }
+})
+
+
+var app = new Vue({
+    el: '#app', 
+    data(){
+        return {tasks: []};
     },
 	
     methods: {
@@ -97,6 +126,14 @@ var app = new Vue({
                 console.log(error)
                 this.errored = true
             });
+        },
+        removeFromList(id){
+            // alert('alou');
+            this.tasks = this.tasks.filter(element => {
+                return element.id != id;
+            })
+            // console.log(this.tasks.find(e => e.id === id));
+            // delete this.tasks.find(e => e.id === id);
         },
 
         removeTask() {
