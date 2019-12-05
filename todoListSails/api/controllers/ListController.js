@@ -21,9 +21,9 @@ module.exports = {
         try {
             response = await Task.create({name: req.body.name});
             return res.send(x);
-          } catch (err) {
-              return res.badRequest(err);
-           }
+        } catch (err) {
+            return res.badRequest(err);
+        }
         // return res.send(x);
     },
 
@@ -36,13 +36,17 @@ module.exports = {
             return res.badRequest(err);
         }
     },
+
     deleteTasks: async function(req, res){
+        sails.log(req.body);
+        
         try{
             let tasks = req.body;
             tasks.forEach(async (element) => {
-                await Task.destroy({id: element.id});
-            });
-            return res.send("ok");
+                sails.log(element.name)
+                var removedTasks = await Task.destroy({name: element.name});
+            }).fetch();
+            res.send(removedTasks);
         }
         catch(err){
             return res.badRequest(err);

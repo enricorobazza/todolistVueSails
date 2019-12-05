@@ -45,7 +45,7 @@ var app = new Vue({
                     tasks.push(task);
                 });
                 this.tasks = tasks;
-            }).catch(err => {
+            }).catch(error => {
                 console.log(error)
                 this.errored = true
             });
@@ -73,7 +73,7 @@ var app = new Vue({
                 response.data.forEach(task => {
                     this.tasks.push(task);
                 })
-            }).catch(err => {
+            }).catch(error => {
                 console.log(error)
                 this.errored = true
             });
@@ -91,11 +91,13 @@ var app = new Vue({
                     toRemove.push(old[i]);
                 }            
             }
-            axios.delete('http://localhost:1337', {data: toRemove}).catch(err => {
-                console.log(error);
+            axios.delete('http://localhost:1337', {data: toRemove}).then(response => {
+                console.log(response.data);
+            }).catch(err => {
+                console.log(err);
                 this.errored = true
             })
         }
     }
-    
+        
 })
