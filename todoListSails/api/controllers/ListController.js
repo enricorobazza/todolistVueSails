@@ -14,17 +14,12 @@ module.exports = {
 
 
     addTask: async function (req, res) {
-        sails.log(req.body); 
-        /*sails.log('taskInfo:{name: '+req.body.name+', checked: '+req.body.checked+'}');*/
-        var x = {name: req.body.name, checked: req.body.checked};
-
         try {
-            response = await Task.create({name: req.body.name});
-            return res.send(x);
+            response = await Task.create({name: req.body.name}).fetch();
+            return res.send(response);
           } catch (err) {
               return res.badRequest(err);
            }
-        // return res.send(x);
     },
 
     getTasks: async function(req, res){
@@ -40,7 +35,9 @@ module.exports = {
         try{
             let tasks = req.body;
             tasks.forEach(async (element) => {
-                await Task.destroy({id: element.id});
+                if(element.id){
+                    await Task.destroy({id: element.id});
+                }
             });
             return res.send("ok");
         }
