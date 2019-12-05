@@ -37,7 +37,9 @@
                     <li>Caderno 5 <span class="closeNote">x</span></li>
                 </ul>
 
-                <div class="addNotebook"><input placeholder="Meu caderno..."/><a href="#" class="btn btn-warning">Adicionar caderno</a></div>
+                <div class="addNotebook"><input placeholder="Meu caderno..."/><a v-on:click="addNotebook" href="#" class="btn btn-warning">Adicionar caderno</a></div>
+
+                <div class="addList"><input placeholder="Minha lista..."/><a v-on:click="addList" href="#" class="btn btn-warning">Adicionar lista</a></div>
             </nav>
 
             <div class="content">

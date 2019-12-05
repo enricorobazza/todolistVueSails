@@ -85,19 +85,19 @@ button{
     position: relative;
 }
 
-.addNotebook input{
+.addNotebook input, .addList input{
     margin: 10px 0px;
     width: 100%;
     padding: 10px 10px;
     border: none;
 }
 
-.addNotebook{
+.addNotebook, .addList{
     text-align:center;
     margin: 5px;
 }
 
-.addNotebook a{
+.addNotebook a, .addList a{
     width: 100%;
 }
 

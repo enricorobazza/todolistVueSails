@@ -1,26 +1,3 @@
-
-Vue.component('taskadd', {  
-    template: `  
-        <div class="addTask">
-            <input placeholder="Minha tarefa..." v-model="name" onchange = "this.value = null"/>
-            <a href="#" class="btn btn-warning" v-on:click="addToTasksList">Adicionar tarefa</a>
-        </div>
-`,
-    data() {
-        return { 
-            name: null
-        }       
-    },
-    
-    methods: {
-        addToTasksList() {
-            this.$emit('add-to-tasks-list', this.name)
-            this.name = null
-        }
-     
-    }
-}) 
-
 Vue.component('task',{
     props: {task:{type:Object}},
     template: `<li v-on:click="toggleChecked(task)" :class="task.checked ? 'checked' : ''">{{task.name}} <span v-on:click="removeFromList(task.id)" class="close">x</span></li>`,
@@ -45,12 +22,17 @@ Vue.component('list', {
                             </task>
                         </ul>
 
-                        <taskadd @add-to-tasks-list="updateTasksList"> </taskadd> 
+                        <div class="addTask">
+                            <input placeholder="Minha tarefa..." v-model="taskname" onchange = "this.value = null"/>
+                            <a href="#" class="btn btn-warning" v-on:click="updateTasksList">Adicionar tarefa</a>
+                        </div>
+
                     </div>
                 </div>`,
     props:{id:{type: Number}},
     data(){
         return{
+            taskname: null,
             name: null,
             tasks: []
         }
@@ -65,10 +47,11 @@ Vue.component('list', {
     },
 
     methods:{
-        async updateTasksList(name){
+        async updateTasksList(){
             // cadastrar no banco
-            response = await axios.post('http://localhost:1337', {name})
-            let task = {id: response.data.id, name:name, checked: false};
+            response = await axios.post('http://localhost:1337', {name: this.taskname})
+            let task = {id: response.data.id, name:this.taskname, checked: false};
+            this.taskname = null;
             this.tasks.push(task);
         },
         removeFromList(id){
@@ -93,7 +76,12 @@ var app = new Vue({
     el: '#app', 
 
     methods: {
-
+        addNotebook(){
+            alert('Add Notebook');
+        },
+        addList(){
+            alert('Add list');
+        }
     }
         
 })
