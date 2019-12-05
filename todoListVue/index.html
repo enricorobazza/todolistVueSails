@@ -47,9 +47,8 @@
                         <h5 class="card-title">Minha lista</h5>
 
                         <ul class="list" v-if="tasks.length">
-                            <li v-for="task in tasks">
-                                <task :alo="task.name"></task>
-                            </li>
+                            <task :task="task" v-for="task in tasks">
+                            </task>
                         </ul>
 
                         <taskadd @add-to-tasks-list="updateTasksList"> </taskadd> 
