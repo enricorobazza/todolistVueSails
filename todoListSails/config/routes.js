@@ -20,7 +20,7 @@ module.exports.routes = {
   ***************************************************************************/
 
   'post /': 'ListController.addTask',
-  'get /': 'ListController.getTasks',
+  'get /list/:id': 'ListController.getTasks',
   'delete /':'ListController.deleteTask',
   'put /':'ListController.toggleChecked',
 

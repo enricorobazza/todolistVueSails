@@ -30,8 +30,12 @@ module.exports = {
 
     getTasks: async function(req, res){
         try{
-            var tasks = await Task.find().sort('id');
-            return res.send(tasks);
+            if(req.params.id)
+            {
+                var tasks = await Task.find({list: req.params.id}).sort('id');
+                return res.send(tasks);
+            }
+            return res.status(404).send("Not found.");
         }
         catch(err){
             return res.badRequest(err);

@@ -48,6 +48,7 @@ Vue.component('list', {
                         <taskadd @add-to-tasks-list="updateTasksList"> </taskadd> 
                     </div>
                 </div>`,
+    props:{id:{type: Number}},
     data(){
         return{
             name: null,
@@ -55,7 +56,8 @@ Vue.component('list', {
         }
     },
     async beforeMount() {
-        response = await axios.get('http://localhost:1337');
+        let id = this.$props.id;
+        response = await axios.get('http://localhost:1337/list/'+id);
         this.tasks = [];
         response.data.forEach(task => {
             this.tasks.push(task);
