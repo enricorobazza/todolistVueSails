@@ -1,15 +1,13 @@
 
-//'task'-> nome do meu componente.
-Vue.component('task', {  
-    //Ao inves de fazer a conexao pelo DOM como � feito na instancia do Vue (Line 38). A atributo Template especifica a estrutura do componente
+Vue.component('taskadd', {  
     template: `  
         <div class="addTask">
             <input placeholder="Minha tarefa..." v-model="name" onchange = "this.value = null"/>
-            <a href="#" class="btn btn-warning" v-bind:onclick="">Adicionar tarefa</a>
+            <a href="#" class="btn btn-warning" v-on:click="addToTasksList">Adicionar tarefa</a>
         </div>
 `,
     data() {
-        return { //Returns a fresh data object for each component. Ou seja, v�rias copias do mesmo componente ir� compartilhar os mesmos dados. 
+        return { 
             name: null,
             checked: false
         }       
@@ -26,13 +24,37 @@ Vue.component('task', {
         }
      
     }
-}) //Componentes tamb�m podem utilizar o atributo 'props', para passar dados de um elemento para outro. 
+}) 
+
+Vue.component('task',{
+    // props: {task:{
+    //     type: Object
+    // }},
+    props: ["name"],
+    template: `${name} <span class="close">x</span>`,
+    data() {
+        return { 
+            name: null,
+            checked: false
+        }       
+    },
+    
+    methods: {
+        addToTasksList() {
+            let taskInfo = {
+                name: this.name,
+                checked: this.checked
+            }
+            this.$emit('add-to-tasks-list', taskInfo)
+            this.name = null
+        }
+     
+    }
+})
 
 
-
-//Criando uma nova inst�ncia do Vue. The Root da aplica��o Vue.js
 var app = new Vue({
-    el: '#app', //conectando com a div id = "app" 
+    el: '#app', 
     data(){
         return {tasks: []};
     },
@@ -52,8 +74,7 @@ var app = new Vue({
 	
     methods: {
         updateTasksList(taskInfo) {
-            // this.tasks.push(taskInfo);
-			axios/*usando axios (3rd-party library) e promisses -> podeira usar fetch (padr�o EC6.0)*/
+			axios
 				.post('http://localhost:1337', taskInfo)
 				.then(response => {
 					
