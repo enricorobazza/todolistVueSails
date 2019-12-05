@@ -7,19 +7,19 @@
 
 
 module.exports = {
-  
-    /**
-     * `ListaAxiosController.teste()`
-     */
-
 
     addTask: async function (req, res) {
         try {
+            console.log("Creating task ", req.body.name);
             response = await Task.create({name: req.body.name}).fetch();
             return res.send(response);
           } catch (err) {
               return res.badRequest(err);
            }
+    },
+
+    toggleChecked: async function(req, res){
+
     },
 
     getTasks: async function(req, res){
@@ -32,21 +32,17 @@ module.exports = {
         }
     },
 
-    deleteTasks: async function(req, res){
-        sails.log(req.body);
-        
+    deleteTask: async function(req, res){
         try{
-            let tasks = req.body;
-            tasks.forEach(async (element) => {
-                sails.log(element.name)
-                var removedTasks = await Task.destroy({name: element.name});
-            }).fetch();
-            res.send(removedTasks);
+            await Task.destroy({id: req.body.id});
+            console.log("Task destroyed ", req.body.id)
+            return res.send("ok");
         }
         catch(err){
             return res.badRequest(err);
         }
     }
+
   };
   
   

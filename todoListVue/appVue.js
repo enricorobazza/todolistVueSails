@@ -8,18 +8,13 @@ Vue.component('taskadd', {
 `,
     data() {
         return { 
-            name: null,
-            checked: false
+            name: null
         }       
     },
     
     methods: {
         addToTasksList() {
-            let taskInfo = {
-                name: this.name,
-                checked: this.checked
-            }
-            this.$emit('add-to-tasks-list', taskInfo)
+            this.$emit('add-to-tasks-list', this.name)
             this.name = null
         }
      
@@ -27,9 +22,6 @@ Vue.component('taskadd', {
 }) 
 
 Vue.component('task',{
-    // props: {task:{
-    //     type: Object
-    // }},
     props: {task:{type:Object}},
     template: `<li>{{task.name}} <span v-on:click="removeFromList(task.id)" class="close">x</span></li>`,
     data() {
@@ -42,14 +34,6 @@ Vue.component('task',{
     methods: {
         removeFromList(id){
             this.$emit('remove-from-list', id);
-        },
-        addToTasksList() {
-            let taskInfo = {
-                name: this.name,
-                checked: this.checked
-            }
-            this.$emit('add-to-tasks-list', taskInfo)
-            this.name = null
         }
     }
 })
@@ -73,23 +57,27 @@ Vue.component('list', {
             tasks: []
         }
     },
-    beforeMount(){
-        axios.get('http://localhost:1337').then(response => {
-                tasks = [];
-                response.data.forEach(task => {
-                    tasks.push(task);
-                });
-                this.tasks = tasks;
-            }).catch(error => {
-                console.log(error)
-                this.errored = true
-            });
+    async beforeMount() {
+        response = await axios.get('http://localhost:1337');
+        this.tasks = [];
+        response.data.forEach(task => {
+            this.tasks.push(task);
+        })
     },
+
     methods:{
+        async updateTasksList(name){
+            // cadastrar no banco
+            response = await axios.post('http://localhost:1337', {name})
+            let task = {id: response.data.id, name:name, checked: false};
+            this.tasks.push(task);
+        },
         removeFromList(id){
-            alert(id);
-            // delete tasks[0];
-            this.$emit('remove-from-list', id);
+            // deletar do banco
+            axios.delete('http://localhost:1337', {data:{id}});
+            this.tasks = this.tasks.filter(task=>{
+                return task.id != id;
+            })
         }
     }
 })
@@ -97,64 +85,9 @@ Vue.component('list', {
 
 var app = new Vue({
     el: '#app', 
-    data(){
-        return {tasks: []};
-    },
-	
+
     methods: {
-        updateTasksList(taskInfo) {
-			axios
-				.post('http://localhost:1337', taskInfo)
-				.then(response => {
-					
-					this.tasks.push(response.data);
-					
-					console.log(response.data);
-				})
-				.catch(error => {
-					console.log(error)
-					this.errored = true
-				})
-        },
 
-        getTasks(){
-            axios.get('http://localhost:1337').then(response => {
-                response.data.forEach(task => {
-                    this.tasks.push(task);
-                })
-            }).catch(error => {
-                console.log(error)
-                this.errored = true
-            });
-        },
-        removeFromList(id){
-            // alert('alou');
-            this.tasks = this.tasks.filter(element => {
-                return element.id != id;
-            })
-            // console.log(this.tasks.find(e => e.id === id));
-            // delete this.tasks.find(e => e.id === id);
-        },
-
-        removeTask() {
-            var old = this.tasks;
-            this.tasks = [];
-            var toRemove = [];
-            for (var i = 0; i < old.length; i++) {
-                if (!old[i].checked){
-                    this.tasks.push(old[i]);
-                }
-                else{
-                    toRemove.push(old[i]);
-                }            
-            }
-            axios.delete('http://localhost:1337', {data: toRemove}).then(response => {
-                console.log(response.data);
-            }).catch(err => {
-                console.log(err);
-                this.errored = true
-            })
-        }
     }
         
 })
