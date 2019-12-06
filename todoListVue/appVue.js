@@ -33,7 +33,6 @@ Vue.component('list', {
     data(){
         return{
             taskname: null,
-            name: null,
             tasks: []
         }
     },
@@ -49,7 +48,7 @@ Vue.component('list', {
     methods:{
         async updateTasksList(){
             // cadastrar no banco
-            response = await axios.post('http://localhost:1337', {name: this.taskname})
+            response = await axios.post('http://localhost:1337/list/'+this.$props.id, {name: this.taskname})
             let task = {id: response.data.id, name:this.taskname, checked: false};
             this.taskname = null;
             this.tasks.push(task);

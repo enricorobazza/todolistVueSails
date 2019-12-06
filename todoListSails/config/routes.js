@@ -19,7 +19,7 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  'post /': 'ListController.addTask',
+  'post /list/:id': 'ListController.addTask',
   'get /list/:id': 'ListController.getTasks',
   'get /notebook/:id': 'ListController.getLists',
   'post /notebook/:id': 'ListController.addList',

@@ -10,9 +10,12 @@ module.exports = {
 
     addTask: async function (req, res) {
         try {
-            console.log("Creating task ", req.body.name);
-            response = await Task.create({name: req.body.name}).fetch();
-            return res.send(response);
+            if(req.params.id){
+                console.log("Creating task ", req.body.name);
+                response = await Task.create({name: req.body.name, list: req.params.id}).fetch();
+                return res.send(response);
+            }
+            return res.status(404).send("Not found.");
           } catch (err) {
               return res.badRequest(err);
            }
@@ -32,7 +35,7 @@ module.exports = {
         try{
             if(req.params.id)
             {
-                var lists = await List.find({id: req.params.id}).sort('id');
+                var lists = await List.find({notebook: req.params.id}).sort('id');
                 return res.send(lists);
             }
             return res.status(404).send("Not found.");
@@ -46,7 +49,7 @@ module.exports = {
         try {
             if(req.params.id){
                 console.log("Creating list ", req.body.name, "on notebook", req.params.id);
-                response = await List.create({name: req.body.name, list:req.params.id}).fetch();
+                response = await List.create({name: req.body.name, notebook:req.params.id}).fetch();
                 return res.send(response);
             }
             return res.status(404).send("Not found.");
