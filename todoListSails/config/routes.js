@@ -19,13 +19,19 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  'post /list/:id': 'ListController.addTask',
+
+ 'post /task/:id': 'TaskController.addTask',
+ 'delete /task/:id':'TaskController.deleteTask',
+ 'put /task/':'TaskController.toggleChecked',
+  
   'get /list/:id': 'ListController.getTasks',
-  'get /notebook/:id': 'ListController.getLists',
-  'post /notebook/:id': 'ListController.addList',
-  'delete /task/:id':'ListController.deleteTask',
+  'post /list/:id': 'ListController.addList',
   'delete /list/:id':'ListController.deleteList',
-  'put /':'ListController.toggleChecked',
+
+  'get /notebook/:id': 'ListController.getLists',
+  'delete /notebook/:id': 'NotebookController.deleteNotebook',
+  'get /notebook/': 'NotebookController.getNotebooks',
+  'post /notebook/': 'NotebookController.addNotebook',
 
 
   /***************************************************************************

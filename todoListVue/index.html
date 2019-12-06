@@ -30,21 +30,17 @@
         <div class="middle">
             <nav class="sidebar">
                 <ul>
-                    <li>Caderno 1 <span class="closeNote">x</span></li>
-                    <li class="selected">Caderno 2 <span class="closeNote">x</span></li>
-                    <li>Caderno 3 <span class="closeNote">x</span></li>
-                    <li>Caderno 4 <span class="closeNote">x</span></li>
-                    <li>Caderno 5 <span class="closeNote">x</span></li>
+                    <li v-on:click="selectNotebook(notebook.id)" :class="notebook.selected ? 'selected' : ''" v-for="notebook in notebooks">{{notebook.name}}<span class="closeNote" v-on:click="deleteNotebook(notebook.id)">x</span></li>
                 </ul>
 
-                <div class="addNotebook"><input v-model="notebookname" onchange = "this.value = null" placeholder="Meu caderno..."/><a v-on:click="addNotebook" href="#" class="btn btn-warning">Adicionar caderno</a></div>
+                <div class="addNotebook"><input v-model="notebookname" placeholder="Meu caderno..."/><a v-on:click="addNotebook" href="#" class="btn btn-warning">Adicionar caderno</a></div>
 
-                <div class="addList"><input v-model="listname" onchange = "this.value = null" placeholder="Minha lista..."/><a v-on:click="addList" href="#" class="btn btn-warning">Adicionar lista</a></div>
+                <div class="addList"><input v-model="listname" placeholder="Minha lista..."/><a v-on:click="addList" href="#" class="btn btn-warning">Adicionar lista</a></div>
             </nav>
 
            
 
-                <notebook :id="1" ref="notebook"></notebook>
+                <notebook v-if="notebooks.length > 0" :id="selectedNotebook" ref="notebook"></notebook>
 
                 <!-- <list id="1"></list> -->
 
