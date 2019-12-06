@@ -14,8 +14,13 @@ Vue.component('task',{
 
 Vue.component('list', {
     template: `<div class="card">
-                    <div class="card-body">
+
+                    <div class="title-container">
                         <h5 class="card-title">{{name}}</h5>
+                        <span v-on:click="removeList()" class="close">x</span>
+                    </div>
+
+                    <div class="card-body">
 
                         <ul class="list" v-if="this.tasks.length">
                             <task @toggle-task="toggleTask" @remove-from-list="removeFromList" :task="task" v-for="task in this.tasks">
@@ -55,7 +60,7 @@ Vue.component('list', {
         },
         removeFromList(id){
             // deletar do banco
-            axios.delete('http://localhost:1337', {data:{id}});
+            axios.delete('http://localhost:1337/task/'+id);
             this.tasks = this.tasks.filter(task=>{
                 return task.id != id;
             })
@@ -66,6 +71,9 @@ Vue.component('list', {
                 if(ntask.id == task.id) return task;
                 else return ntask;
             })
+        },
+        removeList(){
+            this.$emit('remove-list', this.$props.id);
         }
     }
 })
@@ -74,7 +82,7 @@ Vue.component('notebook',{
     props:{id:{type:Number}},
     template: `
         <div class="content">
-            <list :id="list.id" :name="list.name" v-for="list in this.lists"></list>
+            <list @remove-list="removeList" :id="list.id" :name="list.name" v-for="list in this.lists"></list>
         </div>
     `,
     async beforeMount(){
@@ -93,6 +101,12 @@ Vue.component('notebook',{
         async addList(name){
             let response = await axios.post('http://localhost:1337/notebook/'+this.$props.id, {name});
             this.lists.push(response.data);
+        },
+        async removeList(id){
+            axios.delete('http://localhost:1337/list/'+id);
+            this.lists = this.lists.filter(list => {
+                return list.id != id;
+            })
         }
     }
 })

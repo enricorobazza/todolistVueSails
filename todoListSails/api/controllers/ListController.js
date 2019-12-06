@@ -31,6 +31,17 @@ module.exports = {
         }
     },
 
+    deleteList: async function(req, res){
+        try{
+            await List.destroy({id: req.params.id});
+            console.log("List destroyed ", req.params.id)
+            return res.send("ok");
+        }
+        catch(err){
+            return res.badRequest(err);
+        }
+    },
+
     getLists: async function(req, res){
         try{
             if(req.params.id)
@@ -74,8 +85,8 @@ module.exports = {
 
     deleteTask: async function(req, res){
         try{
-            await Task.destroy({id: req.body.id});
-            console.log("Task destroyed ", req.body.id)
+            await Task.destroy({id: req.params.id});
+            console.log("Task destroyed ", req.params.id)
             return res.send("ok");
         }
         catch(err){

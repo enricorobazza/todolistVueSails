@@ -23,7 +23,8 @@ module.exports.routes = {
   'get /list/:id': 'ListController.getTasks',
   'get /notebook/:id': 'ListController.getLists',
   'post /notebook/:id': 'ListController.addList',
-  'delete /':'ListController.deleteTask',
+  'delete /task/:id':'ListController.deleteTask',
+  'delete /list/:id':'ListController.deleteList',
   'put /':'ListController.toggleChecked',
 
 
