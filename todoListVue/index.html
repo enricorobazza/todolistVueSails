@@ -37,16 +37,18 @@
                     <li>Caderno 5 <span class="closeNote">x</span></li>
                 </ul>
 
-                <div class="addNotebook"><input placeholder="Meu caderno..."/><a v-on:click="addNotebook" href="#" class="btn btn-warning">Adicionar caderno</a></div>
+                <div class="addNotebook"><input v-model="notebookname" onchange = "this.value = null" placeholder="Meu caderno..."/><a v-on:click="addNotebook" href="#" class="btn btn-warning">Adicionar caderno</a></div>
 
-                <div class="addList"><input placeholder="Minha lista..."/><a v-on:click="addList" href="#" class="btn btn-warning">Adicionar lista</a></div>
+                <div class="addList"><input v-model="listname" onchange = "this.value = null" placeholder="Minha lista..."/><a v-on:click="addList" href="#" class="btn btn-warning">Adicionar lista</a></div>
             </nav>
 
-            <div class="content">
+           
 
-                <list id="1"></list>
+                <notebook :id="1" ref="notebook"></notebook>
 
-            </div>
+                <!-- <list id="1"></list> -->
+
+            
 
             
             <!-- <div id="app">

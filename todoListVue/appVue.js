@@ -15,7 +15,7 @@ Vue.component('task',{
 Vue.component('list', {
     template: `<div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Alo</h5>
+                        <h5 class="card-title">{{name}}</h5>
 
                         <ul class="list" v-if="this.tasks.length">
                             <task @toggle-task="toggleTask" @remove-from-list="removeFromList" :task="task" v-for="task in this.tasks">
@@ -29,7 +29,7 @@ Vue.component('list', {
 
                     </div>
                 </div>`,
-    props:{id:{type: Number}},
+    props:{id:{type: Number}, name:{type:String}},
     data(){
         return{
             taskname: null,
@@ -71,6 +71,33 @@ Vue.component('list', {
     }
 })
 
+Vue.component('notebook',{
+    props:{id:{type:Number}},
+    template: `
+        <div class="content">
+            <list :id="list.id" :name="list.name" v-for="list in this.lists"></list>
+        </div>
+    `,
+    async beforeMount(){
+        let response = await axios.get('http://localhost:1337/notebook/'+this.$props.id);
+        this.lists = [];
+        response.data.forEach(list=>{
+            this.lists.push(list);
+        });
+    },
+    data(){
+        return{
+            lists:[]
+        }
+    },
+    methods:{
+        async addList(name){
+            let response = await axios.post('http://localhost:1337/notebook/'+this.$props.id, {name});
+            this.lists.push(response.data);
+        }
+    }
+})
+
 
 var app = new Vue({
     el: '#app', 
@@ -80,8 +107,14 @@ var app = new Vue({
             alert('Add Notebook');
         },
         addList(){
-            alert('Add list');
+            this.$refs.notebook.addList(this.listname);
         }
-    }
+    },
+    data(){
+        return{
+            notebookname: null,
+            listname: null,
+        }
+    },
         
 })

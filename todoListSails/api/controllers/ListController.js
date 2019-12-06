@@ -28,6 +28,33 @@ module.exports = {
         }
     },
 
+    getLists: async function(req, res){
+        try{
+            if(req.params.id)
+            {
+                var lists = await List.find({id: req.params.id}).sort('id');
+                return res.send(lists);
+            }
+            return res.status(404).send("Not found.");
+        }
+        catch(err){
+            return res.badRequest(err);
+        }
+    },
+
+    addList: async function (req, res) {
+        try {
+            if(req.params.id){
+                console.log("Creating list ", req.body.name, "on notebook", req.params.id);
+                response = await List.create({name: req.body.name, list:req.params.id}).fetch();
+                return res.send(response);
+            }
+            return res.status(404).send("Not found.");
+          } catch (err) {
+              return res.badRequest(err);
+           }
+    },
+
     getTasks: async function(req, res){
         try{
             if(req.params.id)
